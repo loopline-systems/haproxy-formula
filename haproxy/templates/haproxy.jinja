@@ -260,6 +260,15 @@ listen {{ listener[1].get('name', listener[0]) }}
         {%- endfor %}
       {%- endif %}
     {%- endif %}
+    {%- if 'timeouts' in listener[1] %}
+      {%- if listener[1].timeouts is string %}
+    timeout {{ listener[1].timeouts }}
+      {%- else %}
+        {%- for timeout in listener[1].timeouts %}
+    timeout {{ timeout }}
+        {%- endfor %}
+      {%- endif %}
+    {%- endif %}
     {%- if 'cookie' in listener[1] %}
     cookie {{ listener[1].cookie }}
     {%- endif %}
