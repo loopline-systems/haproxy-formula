@@ -135,7 +135,7 @@ resolvers {{ resolver[0] }}
 #------------------
 # listen instances
 #------------------
-  {%- for listener in salt['pillar.get']('haproxy:listens', {}).iteritems() %}
+  {%- for listener in salt['pillar.get']('haproxy:listens', {}).iteritems()|sort %}
 listen {{ listener[1].get('name', listener[0]) }}
     {%- if 'bind' in listener[1] %}
       {%- if listener[1].bind is string %}
@@ -303,7 +303,7 @@ listen {{ listener[1].get('name', listener[0]) }}
 #------------------
 # frontend instances
 #------------------
-  {%- for frontend in salt['pillar.get']('haproxy:frontends', {}).iteritems() %}
+  {%- for frontend in salt['pillar.get']('haproxy:frontends', {}).iteritems()|sort %}
 frontend {{ frontend[1].get('name', frontend[0]) }}
     {%- if 'bind' in frontend[1] %}
     {{- render_list_of_dictionaries('bind', frontend[1].bind) }}
@@ -372,7 +372,7 @@ frontend {{ frontend[1].get('name', frontend[0]) }}
 #------------------
 # backend instances
 #------------------
-  {%- for backend in salt['pillar.get']('haproxy:backends', {}).iteritems() %}
+  {%- for backend in salt['pillar.get']('haproxy:backends', {}).iteritems()|sort %}
 backend {{ backend[1].get('name',backend[0]) }}
     {%- if 'mode' in backend[1] %}
     mode {{ backend[1].mode }}
